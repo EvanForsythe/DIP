@@ -1,4 +1,4 @@
-![](images/triple-DIP.pdf)
+[triple-DIP.pdf](DIP/images/triple-DIP.pdf)
 
 # Divergence-based Introgression Polarization (DIP)
 
