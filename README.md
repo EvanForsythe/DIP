@@ -1,8 +1,6 @@
-![](images/triple-DIP.png)
-
-![](images/triple-DIP.pdf)
-
 # Divergence-based Introgression Polarization (DIP)
+
+![](images/triple-DIP.png)
 
 Introgressive hybridization is an impactful evolutionary process. 
 While there are many tools for identifying the presence of introgression, few explicitly determine the direction in which genetic material was transferred during introgression.
