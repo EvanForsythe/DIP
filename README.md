@@ -1,4 +1,4 @@
-[](images/triple-DIP.png)
+[](https://github.com/EvanForsythe/DIP/blob/master/images/triple-DIP.png)
 
 # Divergence-based Introgression Polarization (DIP)
 
