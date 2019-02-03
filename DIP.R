@@ -6,7 +6,7 @@ args = commandArgs(trailingOnly=TRUE)
 #The related script, Make_locus_alignments.R, can be used to generate these single-locus alignments.
 
 #Usage:
-#Rscript --vanilla DIP.R <A1:Jobname> <A2:type_of_alignment> <A3:directory_containing_alignments_and_listfile> <A4:Listfile> 
+#Rscript --vanilla DIP.R <A1:Jobname> <A2:type_of_alignment> <A3:directory_containing_alignments_and_listfile> <A4:Simulation replicate> 
 #<A5:Total_number_of_taxa_in_alignments> <A6:P1_taxon_string> <A7:P2_taxon_string> <A8:P3_taxon_string> <A9:Outgroup_taxon_string>
 
 #Set working directory to the directory in which this script lives
