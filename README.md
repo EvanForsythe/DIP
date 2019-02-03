@@ -45,7 +45,7 @@ The alignment type. Either "fasta" or "phylip"
 
 The full path to the directory containing the single-locus alignments. End with a "/"
 
-+ *<A4:Simulation replicate>
++ *<A4:Simulation replicate>*
 
 This is only used for simulation analyses where the genome alignment step was replicated. For analysis of empirical data, make this the exact same string used in A1
 
