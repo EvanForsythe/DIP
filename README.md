@@ -8,9 +8,9 @@ DIP is a tool for polarizing both unidirectional and asymmetric bidirectional in
 DIP works in a widely-used four-taxon context and is built to analyze either whole-chromosome alignments or single-locus alignments spanning the genome.
 
 ## DIP References:
-*https://www.biorxiv.org/content/10.1101/539197v1*
+*Forsythe ES, Sloan DB, Beilstein MA. Divergence-based introgression polarization (Submitted). Available from: https://www.biorxiv.org/content/10.1101/539197v1*
 
-*Forsythe ES, Nelson AD, Beilstein MA. Biased gene retention in the face of massive nuclear introgression obscures species relationships (Submitted). bioRxiv. Available from: https://www.biorxiv.org/content/early/2018/10/18/197087?%3Fcollection=*
+*Forsythe ES, Nelson AD, Beilstein MA. Biased gene retention in the face of massive nuclear introgression obscures species relationships (Submitted). Available from: https://www.biorxiv.org/content/early/2018/10/18/197087?%3Fcollection=*
 
 
 ## Contents of this repository
@@ -103,7 +103,7 @@ The minimum number of taxa expected in each chromosome alignment file
 
 + *A5:Window_length*
 
-The desired length of windows. We've been using 10,000 by default but this will depend on expected linkage disequilibrium in your system.
+The desired length of windows. We have been using 10,000 nt by default but this will depend on expected linkage disequilibrium in your system.
 
 Example executable:
 
