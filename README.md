@@ -14,18 +14,22 @@ DIP works in a widely-used four-taxon context and is built to analyze either who
 
 
 ## Contents of this repository
-This repository contains scripts for performing Divergence-based Introgression Polarization (DIP) analyses.
+This repository contains scripts for performing Divergence-based Introgression Polarization (DIP) analyses. 
+
+## Dependencies
+To run DIP, users will need to install R with the following R (v3.5.0) with the following R packages: phyclust (v0.1.22), parallel (v3.5.0), plyr (v1.8.4), seqinr (v3.4.5), reshape2 (v1.4.3), ggplot2 (v3.0.0), gplots (v3.0.1), RColorBrewer (v1.1.2), ape (v5.2). Note that the indicated versions are the versions used for testing DIP but we expect that DIP should run other under versions as well.
 
 ### *DIP.R*
 
 DIP.R is used to perform 1x, 2x, and 3x-DIP analyses. 
-DIP.R is called from the command line using the rscript command.
+DIP.R is called from the command line using the Rscript command.
 The input data are single-gene multiple sequence alignments in fasta or phylip format.
 DIP was designed for and tested on datasets composed of roughly 1000-10,000 single locus alignments.
-Alignment files should be stored be stored in the same directory. 
+Alignment files should be stored in the same directory. 
 The path to this directory specified by the user when DIP.R is called.
 The names of all alignment file should contain a common string, that is also specified by the user when DIP.R is called.
 The taxon identifiers/sequence names should contain unique strings specifying the species name (e.g. SpeciesX_000000001, SpeciesY_000000001, etc...)
+If there are more than four taxa in alignments, extra taxa are pruned to leave only the four taxa specified by the user.
 
 *Running DIP.R*
 
@@ -45,7 +49,7 @@ The alignment type. Either "fasta" or "phylip"
 
 The full path to the directory containing the single-locus alignments. End with a "/"
 
-+ *<A4:Simulation replicate>*
++ *A4:Simulation_replicate*
 
 This is only used for simulation analyses where the genome alignment step was replicated. For analysis of empirical data, make this the exact same string used in A1
 
@@ -69,7 +73,7 @@ A string found in the sequence identifiers of the species used as P3
 
 A string found in the sequence identifiers of the species used as the outgroup
 
-Example executable:
+Example command:
 
 `Rscript --vanilla DIP.R "fa" "fasta" "DIP/Simulated_alignments/" "fa" "4" "s1" "s2" "s3" "o"`
 
@@ -83,7 +87,7 @@ At this time, alignments must be in fasta format.
 
 Make_locus_alignments.R is called from the command line with nine arguments as follows:
 
-`Rscript --vanilla Running Make_locus_alignments.R <A1:chrom_aln_dir> <A2:single_locus_aln_dir> <A3:alignment_file_pattern> <A4:Total_number_of_taxa_in_alignment> <A5:Window_length> 
+`Rscript --vanilla Running Make_locus_alignments.R <A1:chrom_aln_dir> <A2:single_locus_aln_dir> <A3:alignment_file_pattern> <A4:Total_number_of_taxa_in_alignment> <A5:Window_length>`
 
 + *A1:chrom_aln_dir*
 
@@ -105,7 +109,7 @@ The minimum number of taxa expected in each chromosome alignment file
 
 The desired length of windows. We have been using 10,000 nt by default but this will depend on expected linkage disequilibrium in your system.
 
-Example executable:
+Example command:
 
 `Rscript --vanilla Running Make_locus_alignments.R "DIP/Chrom_alignments/" "DIP/Chrom_alignments/windows" "fa" "4" "10000"`
 
