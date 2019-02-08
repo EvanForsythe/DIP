@@ -17,7 +17,8 @@ DIP works in a widely-used four-taxon context and is built to analyze either who
 This repository contains scripts for performing Divergence-based Introgression Polarization (DIP) analyses. 
 
 ## Dependencies
-To run DIP, users will need to install R with the following R (v3.5.0) with the following R packages: phyclust (v0.1.22), parallel (v3.5.0), plyr (v1.8.4), seqinr (v3.4.5), reshape2 (v1.4.3), ggplot2 (v3.0.0), gplots (v3.0.1), RColorBrewer (v1.1.2), ape (v5.2). Note that the indicated versions are the versions used for testing DIP but we expect that DIP should run other under versions as well.
+To run DIP, users will need to install R (v3.5.0) with the following R packages: phyclust (v0.1.22), parallel (v3.5.0), plyr (v1.8.4), seqinr (v3.4.5), reshape2 (v1.4.3), ggplot2 (v3.0.0), gplots (v3.0.1), RColorBrewer (v1.1.2), ape (v5.2). 
+Note that the indicated versions are the versions used for testing DIP but we expect that DIP should run other under versions as well.
 
 ### *DIP.R*
 
