@@ -78,7 +78,9 @@ Example command:
 
 `Rscript --vanilla DIP.R "fa" "fasta" "DIP/Simulated_alignments/" "fa" "4" "s1" "s2" "s3" "o"`
 
-*Running Make_locus_alignments.R*
+
+
+### *Make_locus_alignments.R*
 
 If data are in the format of whole-chromosome alignments, DIP requires these large alignments to be divided into windows (similar to single-locus alignments).
 Make_locus_alignments.R is used to split large alignments into smaller single-window alignments. This will work for a single chromosome alignment or it can iterate through alignments for multiple chromosomes.
@@ -115,6 +117,10 @@ Example command:
 `Rscript --vanilla Running Make_locus_alignments.R "DIP/Chrom_alignments/" "DIP/Chrom_alignments/windows" "fa" "4" "10000"`
 
 
+
+
+### *Seq_sim_master.R*
+
 *Running Seq_sim_master.R*
 
 Seq_sim_master.R is used to create the simulated genome alignments that we used to test DIP. The user specifies the pIG parameter. By default this script will iterate through values of p(P3->P2) between 0 and 1. The script is callable from the command line with three arguments as follows:
@@ -137,6 +143,9 @@ Example command:
 
 `Rscript --vanilla Seq_sim_master.R "5000" "5000" "0.1"`
 
+
+
+### *Download_vcf.py*
 
 *Running Download_vcf.py*
 
