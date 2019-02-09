@@ -140,13 +140,13 @@ Example command:
 
 *Running Download_vcf.py*
 
-This script is used to download whole-chromosome vcf files from hominin samples and extract a fasta file of all samples aligned to the chromosome assembly from the human reference genome (hg19)
+This script is used to download whole-chromosome vcf files from hominin samples and extract a fasta file of all samples aligned to the chromosome assembly from the human reference genome (hg19).
 The script is called from the command line with one argument, the desired chromosome number. We used chromosome 1 in our analyses. 
 Note that this script was tested using python v2.7 on macOS. To run on linux, the 'curl' lines will need to be modified.
 
 Example command:
 
-`Rscript --vanilla Seq_sim_master.R "5000" "5000" "0.1"`
+`python2.7 Download_vcf.py 1`
 
 
 
