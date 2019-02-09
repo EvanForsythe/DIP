@@ -14,7 +14,7 @@ DIP works in a widely-used four-taxon context and is built to analyze either who
 
 
 ## Contents of this repository
-This repository contains scripts for performing Divergence-based Introgression Polarization (DIP) analyses. 
+This repository contains R scripts for performing Divergence-based Introgression Polarization (DIP) analyses. An R script for creating simulated genomes used to test DIP and a python script used to download and process hominin data are also included. 
 
 ## Dependencies
 To run DIP, users will need to install R (v3.5.0) with the following R packages: phyclust (v0.1.22), parallel (v3.5.0), plyr (v1.8.4), seqinr (v3.4.5), reshape2 (v1.4.3), ggplot2 (v3.0.0), gplots (v3.0.1), RColorBrewer (v1.1.2), ape (v5.2). 
@@ -115,7 +115,38 @@ Example command:
 `Rscript --vanilla Running Make_locus_alignments.R "DIP/Chrom_alignments/" "DIP/Chrom_alignments/windows" "fa" "4" "10000"`
 
 
+*Running Seq_sim_master.R*
 
+Seq_sim_master.R is used to create the simulated genome alignments that we used to test DIP. The user specifies the pIG parameter. By default this script will iterate through values of p(P3->P2) between 0 and 1. The script is callable from the command line with three arguments as follows:
+
+`Rscript --vanilla Seq_sim_master.R <A1:number_of_loci_in_genome> <A2:length_of_each_locus> <A3:pIG>`
+
++ *<A1:number_of_loci_in_genome>*
+
+An integer, we used 5000 in our analyses
+
++ *<A2:length_of_each_locus>*
+
+An integer, we used 5000 in our analyses
+
++ *<A3:pIG>*
+
+The proportion of loci introgressed in either direction
+
+Example command:
+
+`Rscript --vanilla Seq_sim_master.R "5000" "5000" "0.1"`
+
+
+*Running Download_vcf.py*
+
+This script is used to download whole-chromosome vcf files from hominin samples and extract a fasta file of all samples aligned to the chromosome assembly from the human reference genome (hg19)
+The script is called from the command line with one argument, the desired chromosome number. We used chromosome 1 in our analyses. 
+Note that this script was tested using python v2.7 on macOS. To run on linux, the 'curl' lines will need to be modified.
+
+Example command:
+
+`Rscript --vanilla Seq_sim_master.R "5000" "5000" "0.1"`
 
 
 
