@@ -88,9 +88,9 @@ At this time, alignments must be in fasta format.
 
 *Running Make_locus_alignments.R*
 
-Make_locus_alignments.R is called from the command line with nine arguments as follows:
+Make_locus_alignments.R is called from the command line with five arguments as follows:
 
-`Rscript --vanilla Running Make_locus_alignments.R <A1:chrom_aln_dir> <A2:single_locus_aln_dir> <A3:alignment_file_pattern> <A4:Total_number_of_taxa_in_alignment> <A5:Window_length>`
+`Rscript --vanilla Make_locus_alignments.R <A1:chrom_aln_dir> <A2:single_locus_aln_dir> <A3:alignment_file_pattern> <A4:Total_number_of_taxa_in_alignment> <A5:Window_length>`
 
 + *A1:chrom_aln_dir*
 
@@ -114,7 +114,7 @@ The desired length of windows. We have been using 10,000 nt by default but this 
 
 Example command:
 
-`Rscript --vanilla Running Make_locus_alignments.R "DIP/Chrom_alignments/" "DIP/Chrom_alignments/windows" "fa" "4" "10000"`
+`Rscript --vanilla Make_locus_alignments.R "DIP/Chrom_alignments/" "DIP/Chrom_alignments/windows" "fa" "4" "10000"`
 
 
 
