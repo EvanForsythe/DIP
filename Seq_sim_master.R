@@ -2,7 +2,7 @@
 args = commandArgs(trailingOnly=TRUE)
 
 #Designate the directory where this script lives (be sure to end the path with a "/")
-work_dir<-"/Users/esforsythe/Documents/Work/Bioinformatics/IG_direction/DIP/DIP_revisions/NEW_EVERYTHING/NEW_VERSION_FOR_GITHUB/"
+work_dir<-"/DIP/"
   
 #Set the working directory
 setwd(work_dir)

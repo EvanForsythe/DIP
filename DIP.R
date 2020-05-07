@@ -4,11 +4,6 @@ args = commandArgs(trailingOnly=TRUE)
 #Indicate the location of library containing installed packages (For super computer use only)
 #.libPaths( c( .libPaths(), "<path to libraries>") )
 
-#For testing
-#args<-c("pIG_0.5p32_0.5_5000_0.7", "fasta", "/Users/esforsythe/Documents/Work/Bioinformatics/IG_direction/DIP/DIP_revisions/New_scale_fact/", "rep1.fa", "4", "1", "2", "3", "4")
-#args<-c("pIG_0.5_p32_0.4_nloc_5000_sf_0.1_relIG_0.5", "fasta", "TEST/Simulated_alignments/Windows/", "grep1.fa", "4", "1", "2", "3", "4")
-#args<-c("rep", "fasta", "/Users/esforsythe/Documents/Work/Bioinformatics/IG_direction/DIP/DIP_revisions/NEW_EVERYTHING/NEW_VERSION_FOR_GITHUB/Simulated_alignments/Windows/", "rep", "4", "1", "2", "3", "4")
-
 #This is a script for performing DIP analyses.
 #The input data for DIP are mulitple fasta files, each of which represnts a single-locus alignment
 #The related script, Make_locus_alignments.R, can be used to generate these single-locus alignments.
@@ -18,7 +13,7 @@ args = commandArgs(trailingOnly=TRUE)
 #<A5:Total_number_of_taxa_in_alignments> <A6:P1_taxon_string> <A7:P2_taxon_string> <A8:P3_taxon_string> <A9:Outgroup_taxon_string>
 
 #Set working directory to the directory in which this script lives
-setwd("/Users/esforsythe/Documents/Work/Bioinformatics/IG_direction/DIP/DIP_revisions/NEW_EVERYTHING/NEW_VERSION_FOR_GITHUB")
+setwd("/DIP/")
 
 #designated the package to install/library
 package_list<-c("phyclust", "parallel", "plyr", "seqinr", "reshape2", "ggplot2", "gplots", "RColorBrewer", "ape")
