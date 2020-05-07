@@ -118,7 +118,7 @@ The desired length of windows. We have been using 10,000 nt by default but this 
 
 Example command:
 
-`Rscript --vanilla Make_locus_alignments.R "DIP/Chrom_alignments/" "DIP/Chrom_alignments/windows" "fa" "4" "10000"`
+`Rscript --vanilla Make_locus_alignments.R "DIP/Chrom_alignments/" "DIP/Chrom_alignments/windows/" "fa" "4" "10000"`
 
 
 
