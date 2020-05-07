@@ -8,7 +8,7 @@ DIP is a tool for polarizing both unidirectional and asymmetric bidirectional in
 DIP works in a widely-used four-taxon context and is built to analyze either whole-chromosome alignments or single-locus alignments spanning the genome.
 
 ## DIP References:
-*Forsythe ES, Sloan DB, Beilstein MA. Divergence-based introgression polarization (Submitted). Available from: https://www.biorxiv.org/content/10.1101/539197v1*
+*Forsythe ES, Sloan DB, Beilstein MA, Divergence-based introgression polarization. Genome Biol. Evol. 12, 463–478 (2020).*
 
 *Forsythe ES, Nelson AD, Beilstein MA. Biased gene retention in the face of massive nuclear introgression obscures species relationships (Submitted). Available from: https://www.biorxiv.org/content/early/2018/10/18/197087?%3Fcollection=*
 
@@ -78,7 +78,11 @@ Example command:
 
 `Rscript --vanilla DIP.R "fa" "fasta" "DIP/Simulated_alignments/" "fa" "4" "s1" "s2" "s3" "o"`
 
-
+Output csv files:
++ *locus_data: divergence data for each locus*
++ *point_estimates: measurements of genome-wide DIP statistics*
++ *replicates: DIP statistics measured from resampling replicates*
++ *DIP_results: summarized results of the 1x, 2x, and 3xDIP*
 
 ### *Make_locus_alignments.R*
 

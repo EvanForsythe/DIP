@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
 args = commandArgs(trailingOnly=TRUE)
 
-#Designate the directory where this script lives
-work_dir<-"/DIP/"
+#Designate the directory where this script lives (be sure to end the path with a "/")
+work_dir<-"/Users/esforsythe/Documents/Work/Bioinformatics/IG_direction/DIP/DIP_revisions/NEW_EVERYTHING/NEW_VERSION_FOR_GITHUB/"
   
 #Set the working directory
 setwd(work_dir)
@@ -19,11 +19,21 @@ for(p in 1:length(package_list)){
   }
 }
 
+#Check if output directory exists (create one if not)
+if(!dir.exists(paste(work_dir, "Simulated_alignments/", sep = ""))){
+  system(paste("mkdir ", paste(work_dir, "Simulated_alignments/", sep = ""), sep = ""))
+}
+
 #Designate a directory to store simulated alignments
 aln_dir<-paste(work_dir, "Simulated_alignments/", sep = "")
 
 #Directory to store DIP output
 out_csv_dir<-work_dir
+
+#Check if output directory exists for single-locus alignments (create one if not)
+if(!dir.exists(paste(work_dir, "Simulated_alignments/Windows/", sep = ""))){
+  system(paste("mkdir ", paste(work_dir, "Simulated_alignments/Windows/", sep = ""), sep = ""))
+}
 
 #Directory where single-locus (window) alignments will output
 window_dir<-paste(work_dir, "Simulated_alignments/Windows/", sep = "")

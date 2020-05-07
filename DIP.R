@@ -1,6 +1,14 @@
 #!/usr/bin/env Rscript
 args = commandArgs(trailingOnly=TRUE)
 
+#Indicate the location of library containing installed packages (For super computer use only)
+#.libPaths( c( .libPaths(), "<path to libraries>") )
+
+#For testing
+#args<-c("pIG_0.5p32_0.5_5000_0.7", "fasta", "/Users/esforsythe/Documents/Work/Bioinformatics/IG_direction/DIP/DIP_revisions/New_scale_fact/", "rep1.fa", "4", "1", "2", "3", "4")
+#args<-c("pIG_0.5_p32_0.4_nloc_5000_sf_0.1_relIG_0.5", "fasta", "TEST/Simulated_alignments/Windows/", "grep1.fa", "4", "1", "2", "3", "4")
+#args<-c("rep", "fasta", "/Users/esforsythe/Documents/Work/Bioinformatics/IG_direction/DIP/DIP_revisions/NEW_EVERYTHING/NEW_VERSION_FOR_GITHUB/Simulated_alignments/Windows/", "rep", "4", "1", "2", "3", "4")
+
 #This is a script for performing DIP analyses.
 #The input data for DIP are mulitple fasta files, each of which represnts a single-locus alignment
 #The related script, Make_locus_alignments.R, can be used to generate these single-locus alignments.
@@ -10,17 +18,17 @@ args = commandArgs(trailingOnly=TRUE)
 #<A5:Total_number_of_taxa_in_alignments> <A6:P1_taxon_string> <A7:P2_taxon_string> <A8:P3_taxon_string> <A9:Outgroup_taxon_string>
 
 #Set working directory to the directory in which this script lives
-setwd("/DIP/")
+setwd("/Users/esforsythe/Documents/Work/Bioinformatics/IG_direction/DIP/DIP_revisions/NEW_EVERYTHING/NEW_VERSION_FOR_GITHUB")
 
 #designated the package to install/library
 package_list<-c("phyclust", "parallel", "plyr", "seqinr", "reshape2", "ggplot2", "gplots", "RColorBrewer", "ape")
 
 #Loop to install/library needed packages
-for(p in 1:length(package_list)){
+for(k in 1:length(package_list)){
 
-  if (!require(package_list[p], character.only = TRUE)) {
-    install.packages(package_list[p], dependencies = TRUE)
-    library(package_list[p], character.only=TRUE)
+  if (!require(package_list[k], character.only = TRUE)) {
+    install.packages(package_list[k], dependencies = TRUE)
+    library(package_list[k], character.only=TRUE)
   }
 }
 
@@ -91,7 +99,7 @@ P_out<-grep(taxa_prefix[4],labels(sl_aln))
 sl_aln_pruned<-sl_aln[c(P1, P2, P3, P_out), ]
 
 #convert to the proper class
-dist_mat<-dist.dna(sl_aln_pruned, as.matrix = TRUE)
+dist_mat<-dist.dna(sl_aln_pruned, as.matrix = TRUE, model = "F84")
 
 #Skip loci that contain NA in dist matrix
 if(!any(is.na(dist_mat))){
@@ -102,9 +110,9 @@ K12<-dist_mat[1,2]
 K13<-dist_mat[1,3] 
 
 #Extract ALT divergence values (P1 and P2 are switched)
-K23_alt<-dist_mat[1,3] #Formerly D1
-K12_alt<-dist_mat[1,2] #Formerly D2
-K13_alt<-dist_mat[2,3] #Formerly D3
+K23_alt<-dist_mat[1,3] 
+K12_alt<-dist_mat[1,2] 
+K13_alt<-dist_mat[2,3] 
 
 #Get the neighbor joining topology of tree
 tree<-nj(dist_mat)
@@ -158,16 +166,17 @@ DandT_df_clean<-data.frame(Alignment_name=DandT_df$Alignment_name,
                            )
 
 #Write a copy of the divergence/tree data for each locus
-write.csv(DandT_df_clean, file = paste(jobname, sim_rep, "_DIP_data_out", Sys.Date(), ".csv", sep = ""))
+write.csv(DandT_df_clean, file = paste(jobname, "_", sim_rep, "_locus_data_", Sys.Date(), ".csv", sep = ""))
 
-### INFER MODE ###
+#Read data back in (in necessary)
+#DandT_df_clean<-read.csv(file = "pIG_0.5p32_0.4_5000_0.1rep1.fa_DIP_data_out2019-10-14.csv", header = TRUE)
+
 #Subset dataframe by Topology
 SP_loci<-subset(DandT_df_clean, Topology=="12top" & bs_for_top >= BS_cutoff)
 IG_loci<-subset(DandT_df_clean, Topology=="23top" & bs_for_top >= BS_cutoff)
 ILS_loci<-subset(DandT_df_clean, Topology=="13top" & bs_for_top >= BS_cutoff)
 
 #Get the deltas for the full genome
-### INFER MODE ###
 deltaK23_full<-(mean(SP_loci$K23)-mean(IG_loci$K23))
 deltaK12_full<-(mean(IG_loci$K12)-mean(SP_loci$K12))
 deltaK13_full<-(mean(SP_loci$K13)-mean(IG_loci$K13))
@@ -176,34 +185,38 @@ deltaK12_alt_full<-(mean(ILS_loci$K12_alt)-mean(SP_loci$K12_alt))
 deltaK13_alt_full<-(mean(SP_loci$K13_alt)-mean(ILS_loci$K13_alt))
 delta_delta_full<-deltaK12_full-deltaK13_full
 delta_delta_alt_full<-deltaK12_alt_full-deltaK13_alt_full
-deltaX3_full<-delta_delta_full-delta_delta_alt_full
-deltaX3_wt_full<-delta_delta_full-((nrow(ILS_loci)/nrow(IG_loci))*delta_delta_alt_full)
-### END INFER MODE ###
+dddK<-(((nrow(IG_loci))*delta_delta_full)-(nrow(ILS_loci)*delta_delta_alt_full))/(nrow(IG_loci)-nrow(ILS_loci))
 
-# ### OMNISCIENT MODE ###
-# #Subset dataframe by Topology
-# SP_loci_omn<-DandT_df_clean[1:(nrow(DandT_df_clean)/2),]
-# IG_loci_omn<-DandT_df_clean[(nrow(DandT_df_clean)/2):nrow(DandT_df_clean),]
-# 
-# #Get the deltas for the full genome
-# deltaK23_full_omn<-(mean(SP_loci_omn$K23)-mean(IG_loci_omn$K23))
-# deltaK12_full_omn<-(mean(IG_loci_omn$K12)-mean(SP_loci_omn$K12))
-# deltaK13_full_omn<-(mean(SP_loci_omn$K13)-mean(IG_loci_omn$K13))
-# delta_delta_full_omn<-deltaK12_full_omn-deltaK13_full_omn
-# ### END OMNISCIENT MODE ###
-# 
-# ### OMNISCIENT PLUS INFER MODE ###
-# #Subset dataframe by Topology
-# SP_loci_oi<-subset(DandT_df_clean[1:(nrow(DandT_df_clean)/2),], Topology=="12top" & bs_for_top >= BS_cutoff)
-# IG_loci_oi<-subset(DandT_df_clean[(nrow(DandT_df_clean)/2):nrow(DandT_df_clean),], Topology=="23top" & bs_for_top >= BS_cutoff)
-# 
-# #Get the deltas for the full genome (no resampled)
-# deltaK23_full_oi<-(mean(SP_loci_oi$K23)-mean(IG_loci_oi$K23))
-# deltaK12_full_oi<-(mean(IG_loci_oi$K12)-mean(SP_loci_oi$K12))
-# deltaK13_full_oi<-(mean(SP_loci_oi$K13)-mean(IG_loci_oi$K13))
-# delta_delta_full_oi<-deltaK12_full_oi-deltaK13_full_oi
-# ### END OMNISCIENT PLUS INFER MODE ###
 
+### Write point estimate data
+point_ests<-data.frame(Result=c(
+deltaK23_full,
+deltaK12_full,
+deltaK13_full,
+deltaK23_alt_full,
+deltaK12_alt_full,
+deltaK13_alt_full,
+delta_delta_full,
+delta_delta_alt_full,
+dddK
+))
+
+
+
+rownames(point_ests)<-c(
+  "dK23_point_est",
+  "dK12_point_est",
+  "dK13_point_est",
+  "dK23alt_point_est",
+  "dK12alt_point_est",
+  "dK13alt_point_est",
+  "ddK_point_est",
+  "ddKalt_point_est",
+  "dddK"
+)
+
+#Write the results
+write.csv(point_ests, file = paste(jobname, "_", sim_rep, "_point_est_", Sys.Date(), ".csv", sep = ""))
 
 #Set number of resampling reps
 #1000 is used by default
@@ -235,11 +248,10 @@ delta_delta_func<-function(){
   deltaK13_alt<-(mean(SP_loci_temp$K13_alt)-mean(ILS_loci_temp$K13_alt))
   delta_delta<-deltaK12-deltaK13
   delta_delta_alt<-deltaK12_alt-deltaK13_alt
-  deltaX3<-delta_delta-delta_delta_alt
-  deltaX3_wt<-delta_delta-((nrow(ILS_loci_temp)/nrow(IG_loci_temp))*delta_delta_alt)
+  dddK<-(((nrow(IG_loci_temp))*delta_delta)-(nrow(ILS_loci_temp)*delta_delta_alt))/(nrow(IG_loci_temp)-nrow(ILS_loci_temp))
 
   #Return the results when function is called
-  return(c(deltaK23, deltaK12, deltaK13, deltaK23_alt, deltaK12_alt, deltaK13_alt, delta_delta, delta_delta_alt, deltaX3, deltaX3_wt))
+  return(c(deltaK23, deltaK12, deltaK13, deltaK23_alt, deltaK12_alt, deltaK13_alt, delta_delta, delta_delta_alt, dddK))
 }
 
 #Replicate the above function
@@ -255,29 +267,19 @@ delta_delta_out_df<-data.frame(
   deltaK13_alt_reps=delta_delta_out[6, ],
   delta_delta_reps=delta_delta_out[7, ],
   delta_delta_alt_reps=delta_delta_out[8, ],
-  deltaX3_reps=delta_delta_out[9, ],
-  deltaX3_wt_reps=delta_delta_out[10, ]
+  dddK_reps=delta_delta_out[9, ]
 )
 
-### MAKE PLOTS AND WRITE OUTPUT ###
+write.csv(delta_delta_out_df, file = paste(jobname, "_", sim_rep, "_replicates_", Sys.Date(), ".csv", sep = ""))
 
-###1xDIP FRAMEWORK
+### MAKE PLOTS AND WRITE OUTPUT ###
+### 1xDIP FRAMEWORK
 
 #Caculate the three p-values for 1xDIP
 prof_new_pvalK23<-length(which(delta_delta_out_df$deltaK23_reps<=0))/length(delta_delta_out_df$deltaK23_reps)
 prof_new_pvalK12<-length(which(delta_delta_out_df$deltaK12_reps<=0))/length(delta_delta_out_df$deltaK12_reps)
 prof_new_pvalK13<-length(which(delta_delta_out_df$deltaK13_reps<=0))/length(delta_delta_out_df$deltaK13_reps)
 
-# #Get the 1xDIP results (results are coded as 1 (P3->P2), -1 (P2->P3), or 0 (bidirectional))
-# #This is only used for graphing large parameter scans
-# if(prof_new_pvalK23<=0.05 && prof_new_pvalK12<=0.05 && prof_new_pvalK13>=0.05){
-#   DIPX1_result<-1
-# }else if(prof_new_pvalK23<=0.05 && prof_new_pvalK12>=0.05 && prof_new_pvalK13<=0.05){
-#   DIPX1_result<-(-1)
-# }else{
-#   DIPX1_result<-0
-# }
-   
 #Create Violin Plot for 1xDIP
 #Rearrange data to make it suitable to plot with ggplot
 violin_data<-rbind(
@@ -309,7 +311,7 @@ theme(axis.text.x = element_text(face="italic", size=10, angle=270, hjust = 0, v
 
 dev.off()
 
-### 2xDIP
+### Get the durection data and p-values for 2x and 3x DIP
 #P-value from 2xDIP
 if(length(which(delta_delta_out_df$delta_delta_reps>0))>0.5*delta_reps){
   dd_direction<-"P3P2"
@@ -319,19 +321,35 @@ if(length(which(delta_delta_out_df$delta_delta_reps>0))>0.5*delta_reps){
   dd_pval<-2*(length(which(delta_delta_out_df$delta_delta_reps>0)))/length(delta_delta_out_df$delta_delta_reps)
 }
 
-# #Get 2xDIP results (coded as numeric as for 1xDIP)
-# #This is only used for plotting parameter scans
-# if(dd_direction=="P3P2" && dd_pval<=0.05){
-#   DIPX2_result<-1
-# }else if(dd_direction=="P2P3" && dd_pval<=0.05){
-#   DIPX2_result<-(-1)
-# }else{
-#   DIPX2_result<-0
-# }
+#P-values from 3xDIP
+if(length(which(delta_delta_out_df$dddK_reps>0))>0.5*delta_reps){
+  dddK_direction<-"P3P2"
+  dddK_pval<-2*(length(which(delta_delta_out_df$dddK_reps<0)))/length(delta_delta_out_df$dddK_reps)
+}else if(length(which(delta_delta_out_df$dddK_reps<0))>0.5*delta_reps){
+  dddK_direction<-"P2P3"
+  dddK_pval<-2*(length(which(delta_delta_out_df$dddK_reps>0)))/length(delta_delta_out_df$dddK_reps)
+}else{
+  dddK_direction<-"NA"
+  dddK_pval<-"NA"
+}
 
-#### WRITE THE DIP RESULT FILE
-#write.csv(c(DIPX1, DIPX2), file = paste(jobname, sim_rep, "DIP_results.csv", sep = ""))
+#Write a file with DIP results and stats
+DIP_stats<-data.frame(Result=c(prof_new_pvalK23, prof_new_pvalK12, prof_new_pvalK13, dd_direction, dd_pval, dddK_direction, dddK_pval))
 
+rownames(DIP_stats)<-c(
+  "P-value for dK23",
+  "P-value for dK12",
+  "P-value for dK13",
+  "2xDIP direction",
+  "2xDIP p-value",
+  "3xDIP direction",
+  "3xDIP p-value"
+)
+
+#Write output file
+write.csv(DIP_stats, file = paste(jobname, "_", sim_rep, "_DIP_results_", Sys.Date(), ".csv", sep = ""))
+
+###2xDIP plot (ddK)
 #Print pdf of 2xDIP
 pdf(paste(jobname, "_2xDIP_", Sys.Date(), ".pdf", sep = ""),width=6,height=6)
 
@@ -357,23 +375,17 @@ with(dens, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="gray"))
 
 dev.off()
 
-## 3xDIP PLOT
-#Get p-values
-if(length(which(delta_delta_out_df$deltaX3_wt_rep>0))>0.5*delta_reps){
-  ddx3_direction<-"P3P2"
-  ddx3_pval<-2*(length(which(delta_delta_out_df$deltaX3_wt_rep<0)))/length(delta_delta_out_df$deltaX3_wt_rep)
-}else if(length(which(delta_delta_out_df$deltaX3_wt_rep<0))>0.5*delta_reps){
-  ddx3_direction<-"P2P3"
-  ddx3_pval<-2*(length(which(delta_delta_out_df$deltaX3_wt_rep>0)))/length(delta_delta_out_df$deltaX3_wt_rep)
-}
+### Check if 3xDIP was performed
+if(!paste(DIP_stats$Result[7])=="NA"){
 
-#Print pdf of 3xDIP
+##3xDIP PLOT (dddK)
+#Print pdf of dddK
 pdf(paste(jobname, "_3xDIP_", Sys.Date(), ".pdf", sep = ""),width=6,height=6)
 
 #Plot the distribution of 3xDIP replicates
-dens<-density(delta_delta_out_df$deltaX3_wt_reps, na.rm = TRUE, adjust = 5)
-plot(dens, main = paste("P-value:", ddx3_pval)
-     , xlim = c(-0.03, 0.03)
+dens<-density(delta_delta_out_df$dddK_reps, na.rm = TRUE, adjust = 5)
+plot(dens, main = paste("P-value:", dddK_pval)
+     #, xlim = c(-0.03, 0.03) #set this manually to make the plot better
 )
 #Add a line at 0
 abline(v = 0)
@@ -390,3 +402,5 @@ if(is.finite(x1) & is.finite(x2) & is.finite(x3) & is.finite(x4)){
 }
 
 dev.off()
+}#end if statement that checks if 3xDIP should be plotted
+
