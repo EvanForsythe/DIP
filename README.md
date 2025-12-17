@@ -8,9 +8,13 @@ DIP is a tool for polarizing both unidirectional and asymmetric bidirectional in
 DIP works in a widely-used four-taxon context and is built to analyze either whole-chromosome alignments or single-locus alignments spanning the genome.
 
 ## DIP References:
-*Forsythe ES, Sloan DB, Beilstein MA, Divergence-based introgression polarization. Genome Biol. Evol. 12, 463–478 (2020).*
+The DIP method:
 
-*Forsythe ES, Nelson AD, Beilstein MA. Biased gene retention in the face of massive nuclear introgression obscures species relationships (Submitted). Available from: https://www.biorxiv.org/content/early/2018/10/18/197087?%3Fcollection=*
+*[Forsythe ES, Sloan DB, Beilstein MA, Divergence-based introgression polarization. Genome Biol. Evol. (2020)](https://doi.org/10.1093/gbe/evaa053)*
+
+Application of the DIP method in a plant dataset:
+
+*[Forsythe ES, Nelson AD, Beilstein MA. Biased Gene Retention in the Face of Introgression Obscures Species Relationships. Genome Biol. Evol. (2020)](https://doi.org/10.1093/gbe/evaa149)*
 
 
 ## Contents of this repository
